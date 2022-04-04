@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Member } from '../member';
 import { MemberService } from '../member.service';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-members',
@@ -14,7 +15,10 @@ export class MembersComponent implements OnInit {
 
   // depenency injection…（DI）引数にデータ型でサービスを指定するとできる
   // 意味が分からない…
-  constructor(private MemberService: MemberService) { }
+  constructor(
+    private memberService: MemberService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     // コンストラクタの中で実行してもいいような気がするが、自身のプロパティを初期化するためだけに使われる
@@ -24,10 +28,13 @@ export class MembersComponent implements OnInit {
 
   onSelect(member: Member): void {
     this.selectedMember = member;
+    this.messageService.add(
+      `MembersComponent: 社員データ(id=${member.id})が選択されました`
+    );
   }
 
   getMembers(): void {
-    this.MemberService.getMembers() //observable
+    this.memberService.getMembers() //observable
       .subscribe(members => this.members = members);
   }
 
