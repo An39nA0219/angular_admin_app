@@ -27,7 +27,8 @@ export class MembersComponent implements OnInit {
   }
 
   getMembers(): void {
-    this.members = this.MemberService.getMembers();
+    this.MemberService.getMembers() //observable
+      .subscribe(members => this.members = members);
   }
 
 }
